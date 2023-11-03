@@ -1,0 +1,9 @@
+Blocked Incoming IPs:
+
+	1.1.1.1
+	2.2.2.2
+
+Blocked Outgoing IPs:
+
+	0.0.0.0
+
