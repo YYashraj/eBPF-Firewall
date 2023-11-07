@@ -13,7 +13,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 	struct iphdr *iph = data + sizeof(struct ethhdr);
 	if (data + sizeof(struct ethhdr) + sizeof(struct iphdr) > data_end) return 0;
 	
-	u32 source_ip = iph->saddr;
+	u32 source_ip = bpf_ntohl(iph->saddr);				//ensure big-endian
 	u32 *blocked = blocked_ips.lookup(&source_ip);
 	
 	if (blocked) return 1;
