@@ -17,7 +17,7 @@ with open("Rules.txt", 'r') as Rules:
 
 
 b = BPF(src_file = "port.bpf.c")
-interface = "lo"
+interface = "eth0"
 
 
 fx = b.load_func("xdp", BPF.XDP)

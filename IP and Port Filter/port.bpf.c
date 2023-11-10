@@ -29,24 +29,28 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 	    struct tcphdr *tcp = data + sizeof(struct ethhdr) + sizeof(struct iphdr);
 	    if (tcp + sizeof(struct tcphdr) > data_end) return 0;
-	    u16 *block = blocked_ports.lookup(&(tcp->source));
+	    u16 source_port = bpf_ntohs(tcp->source);
+	    u16 *block = blocked_ports.lookup(&source_port);
 
-	    if (block){
-	    	u16 source_port = bpf_ntohs(tcp->source);
-	    	bpf_trace_printk("Blocked a packet from port: %u", source_port);
+	    //bpf_trace_printk("%p", block);
+
+	    if (block){	    	
+	    	bpf_trace_printk("Blocked a tcp packet from port: %u", source_port);
 	    	return 1;
 	    }
-	    else bpf_trace_printk("Here comes a TCP packet!");
+	    //else bpf_trace_printk("%d", bpf_ntohs(tcp->source));
 	}
 	
 	if (iph->protocol == 0x11) {
 	    struct udphdr *udp = data + sizeof(struct ethhdr) + sizeof(struct iphdr);
 	    if (udp + sizeof(struct udphdr) > data_end) return 0;
-	    u16 *block = blocked_ports.lookup(&(udp->source));
+	    u16 source_port = bpf_ntohs(udp->source);
+	    u16 *block = blocked_ports.lookup(&source_port);
+
+	    //bpf_trace_printk("hi, udp here");
 	    
 	    if (block){
-	    	u16 source_port = bpf_ntohs(udp->source);
-	    	bpf_trace_printk("Blocked a packet from port: %u", source_port);
+	    	bpf_trace_printk("Blocked a udp packet from port: %u", source_port);
 	    	return 1;
 	    }
 	}
