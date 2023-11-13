@@ -11,11 +11,19 @@ Blocked Outgoing IPs:
 
 	0.0.0.0
 
-Blocked Incoming Ports:
+Blocked from Ports:
 
 	53
 	80
 	
-Blocked Outcoming Ports:
+Blocked to Ports:
 
 	12000
+
+Blocked from User Ports:
+
+	45983
+
+Blocked User to Ports:
+
+	52151

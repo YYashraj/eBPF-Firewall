@@ -27,7 +27,11 @@ BPF.attach_xdp(interface, fx, 0)
 
 blocked_src_ips_map = b.get_table("blocked_src_ips")
 blocked_dest_ips_map = b.get_table("blocked_dest_ips")
-blocked_ports_map = b.get_table("blocked_ports")
+
+blocked_from_ports_map = b.get_table("blocked_incoming_from_ports")
+blocked_to_ports_map = b.get_table("blocked_outgoing_to_ports")
+blocked_from_system_ports_map = b.get_table("blocked_incoming_from_user_ports")
+blocked_to_system_ports_map = b.get_table("blocked_outgoing_to_user_ports")
 
 
 #ip_to_block = input("Enter the ip to block: ")
@@ -46,14 +50,35 @@ for ip_to_block in blocks["Blocked Outgoing IPs"]:
     blocked_dest_ips_map[ct.c_uint(ip_to_block_int)] = ct.c_int(1)
 	
 
-for port_to_block in blocks["Blocked Incoming Ports"]:
+for port_to_block in blocks["Blocked from Ports"]:
 
 	# print(port_to_block)
-	blocked_ports_map[ct.c_uint(int(port_to_block))] = ct.c_int(1)
+	blocked_from_ports_map[ct.c_uint(int(port_to_block))] = ct.c_int(1)
+
+
+for port_to_block in blocks["Blocked to Ports"]:
+
+    blocked_to_ports_map[ct.c_uint(int(port_to_block))] = ct.c_int(1)
+
+
+for port_to_block in blocks["Blocked from User Ports"]:
+
+    blocked_from_system_ports_map[ct.c_uint(int(port_to_block))] = ct.c_int(1)
+
+
+for port_to_block in blocks["Blocked User to Ports"]:
+
+    blocked_to_system_ports_map[ct.c_uint(int(port_to_block))] = ct.c_int(1)
 
 
 user_ips = get_local_ips()
+system_ips_map = b.get_table("user_system_ips")
+
+for local_ip in user_ips:
+    system_ips_map[ct.c_uint(int(local_ip))] = ct.c_int(1)
+
 
 display_blocks(blocks)
 print("System IPs:",user_ips)
+
 b.trace_print()
