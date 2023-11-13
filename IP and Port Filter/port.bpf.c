@@ -5,7 +5,9 @@
 #include <linux/tcp.h>
 #include <linux/udp.h>
 
-BPF_HASH(blocked_ips, u32, u32);
+BPF_HASH(blocked_src_ips, u32, u32);
+BPF_HASH(blocked_dest_ips, u32, u32);
+BPF_HASH(user_system_ips, u32, u32);
 BPF_HASH(blocked_ports, u16, u16);
 
 static __always_inline unsigned short checker(void *data, void *data_end) {
@@ -18,11 +20,18 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 	if (data + sizeof(struct ethhdr) + sizeof(struct iphdr) > data_end) return 0;
 	
 	u32 source_ip = bpf_ntohl(iph->saddr);
-	u32 *blocked = blocked_ips.lookup(&source_ip);
-	if (blocked){
-		bpf_trace_printk("Blocked a packet from ip: %u", source_ip);
+	u32 *blocked_src = blocked_src_ips.lookup(&source_ip);
+	if (blocked_src){
+		bpf_trace_printk("Blocked a packet from source ip: %u", source_ip);
 		return 1;	
 	} 
+
+	u32 dest_ip = bpf_ntohl(iph->daddr);
+  u32 *blocked_dest = blocked_dest_ips.lookup(&dest_ip);
+  if (blocked_dest) {
+      bpf_trace_printk("Blocked a packet to destination ip: %u\n", dest_ip);
+      return 1;
+  }
 	
 	if (iph->protocol == 0x06) {
 			//bpf_trace_printk("Here comes a TCP packet!");
@@ -34,8 +43,11 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 	    //bpf_trace_printk("%p", block);
 
-	    if (block){	    	
-	    	bpf_trace_printk("Blocked a tcp packet from port: %u", source_port);
+	    if (block){	   
+	    	// bpf_trace_printk("Source IP: %u\n", iph->saddr);
+	    	// bpf_trace_printk("Dest IP: %u\n", iph->daddr);
+	    	// bpf_trace_printk("Source Port: %u\n", source_port); 	
+	    	bpf_trace_printk("\nBlocked a tcp packet from port: %u\n", source_port);
 	    	return 1;
 	    }
 	    //else bpf_trace_printk("%d", bpf_ntohs(tcp->source));
@@ -67,5 +79,5 @@ int xdp(struct xdp_md *ctx) {
         return XDP_DROP;
   }
 
-    return XDP_PASS;
+  return XDP_PASS;
 }

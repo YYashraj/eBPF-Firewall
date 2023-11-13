@@ -5,6 +5,7 @@ Blocked Incoming IPs:
 	8.8.4.4
 	8.8.8.8
 	20.250.58.93
+	34.223.124.45
 
 Blocked Outgoing IPs:
 
@@ -12,9 +13,8 @@ Blocked Outgoing IPs:
 
 Blocked Incoming Ports:
 
-	34924
+	53
 	80
-	443
 	
 Blocked Outcoming Ports:
 
