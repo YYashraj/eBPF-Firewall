@@ -20,7 +20,7 @@ with open("Rules.txt", 'r') as Rules:
 
 
 b = BPF(src_file = "firewall.bpf.c", cflags=["-w"])
-interface = "lo"
+interface = "eth0"
 
 fx = b.load_func("xdp", BPF.XDP)
 BPF.attach_xdp(interface, fx, 0)
@@ -72,15 +72,18 @@ for port_to_block in blocks["Blocked User to Ports"]:
 
 
 user_ips = get_local_ips()
-# user_ips.append("10.7.52.103")
+user_ips.append("10.7.52.103")
 system_ips_map = b.get_table("user_system_ips")
 
+blocks["User IPs"] = set()
 for local_ip in user_ips:
+    blocks["User IPs"].add(local_ip)
     local_int = struct.unpack("!I", socket.inet_aton(local_ip))[0]
+    # print(local_ip, " : ", local_int)
     system_ips_map[ct.c_uint(int(local_int))] = ct.c_int(1)
 
 
 display_blocks(blocks)
-print("System IPs:",user_ips)
+# print("System IPs:",user_ips)
 
 b.trace_print()
