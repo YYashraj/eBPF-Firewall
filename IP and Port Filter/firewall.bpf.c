@@ -101,7 +101,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 			    u16 *block_dest = blocked_outgoing_to_ports.lookup(&dest_port);
 			    if (block_dest){
-			    	bpf_trace_printk("Blocked a tcp packet from our system to port: %u", source_port);
+			    	bpf_trace_printk("Blocked a tcp packet from our system to port: %u", dest_port);
 			    	return 1;
 			    }
 
@@ -112,7 +112,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 	    		u16 *block_dest = blocked_outgoing_to_user_ports.lookup(&dest_port);
 	    		if (block_dest){
-			    	bpf_trace_printk("Blocked a tcp packet to our system port: %u", source_port);
+			    	bpf_trace_printk("Blocked a tcp packet to our system port: %u", dest_port);
 			    	return 1;
 			    }
 
@@ -135,7 +135,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 			    u16 *block_dest = blocked_outgoing_to_ports.lookup(&dest_port);
 			    if (block_dest){
-			    	bpf_trace_printk("Blocked a tcp packet to port: %u", source_port);
+			    	bpf_trace_printk("Blocked a tcp packet to port: %u", dest_port);
 			    	return 1;
 			    }
 	    }
@@ -163,7 +163,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 			    u16 *block_dest = blocked_outgoing_to_ports.lookup(&dest_port);
 			    if (block_dest){
-			    	bpf_trace_printk("Blocked a udp packet from our system to port: %u", source_port);
+			    	bpf_trace_printk("Blocked a udp packet from our system to port: %u", dest_port);
 			    	return 1;
 			    }
 
@@ -174,7 +174,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 	    		u16 *block_dest = blocked_outgoing_to_user_ports.lookup(&dest_port);
 	    		if (block_dest){
-			    	bpf_trace_printk("Blocked a udp packet to our system port: %u", source_port);
+			    	bpf_trace_printk("Blocked a udp packet to our system port: %u", dest_port);
 			    	return 1;
 			    }
 
@@ -197,7 +197,7 @@ static __always_inline unsigned short checker(void *data, void *data_end) {
 
 			    u16 *block_dest = blocked_outgoing_to_ports.lookup(&dest_port);
 			    if (block_dest){
-			    	bpf_trace_printk("Blocked a udp packet to port: %u", source_port);
+			    	bpf_trace_printk("Blocked a udp packet to port: %u", dest_port);
 			    	return 1;
 			    }
 	    }
