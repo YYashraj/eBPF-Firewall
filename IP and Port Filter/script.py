@@ -72,7 +72,7 @@ for port_to_block in blocks["Blocked User to Ports"]:
 
 
 user_ips = get_local_ips()
-user_ips.append("10.7.52.103")
+# user_ips.append("10.7.52.103")
 system_ips_map = b.get_table("user_system_ips")
 
 for local_ip in user_ips:
