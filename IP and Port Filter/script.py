@@ -20,10 +20,20 @@ with open("Rules.txt", 'r') as Rules:
 
 
 b = BPF(src_file = "firewall.bpf.c", cflags=["-w"])
-interface = "eth0"
+interface = "lo"
 
 fx = b.load_func("xdp", BPF.XDP)
 BPF.attach_xdp(interface, fx, 0)
+
+'''
+# Load the XDP function for ingress
+fx_ingress = b.load_func("xdp", BPF.XDP)
+BPF.attach_xdp("lo", fx_ingress, 0)  # Attach to ingress
+
+# Load the same XDP function for egress
+fx_egress = b.load_func("xdp", BPF.XDP)
+BPF.attach_xdp("eth0", fx_egress, 1)  # Attach to egress
+'''
 
 blocked_src_ips_map = b.get_table("blocked_src_ips")
 blocked_dest_ips_map = b.get_table("blocked_dest_ips")
