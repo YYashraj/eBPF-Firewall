@@ -1,0 +1,13 @@
+Blocked Incoming IPs:
+
+	10.0.0.2
+
+Blocked Outgoing IPs:
+
+	10.0.2.15
+
+Blocked Incoming Ports:
+
+
+Blocked Outcoming Ports:
+
