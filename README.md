@@ -9,3 +9,6 @@ Instructions to run main programs-
 
 # TC - Linux Traffic Control
 Instructions and commands to run TC programs and check the outputs. 
+## IP filtration
+## Port filtration
+## Traffic Shaping
