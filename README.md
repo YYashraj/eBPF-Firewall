@@ -13,7 +13,7 @@ Instructions and commands to run TC programs and check the outputs.
 ## Traffic Shaping
 
 # ipRules Commands Sheet
-
+<pre>
 ''' IP related commands '''
 
 Rules block I IP &lt;ip_address> : blocks incoming traffic from source IP = &lt;ip_address>
@@ -47,3 +47,4 @@ show update  : displays the unsaved version of Rules.txt after all the commands 
 update Rules : saves the changes in Rules.txt
 undo changes : reverts back to last saved version of Rules.txt, nullifying all later unsaved updates
 exit         : Closes ipRules
+</pre>
