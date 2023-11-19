@@ -1,9 +1,10 @@
 Blocked Incoming IPs:
 
 	8.8.8.8
-	34.223.124.45
 	8.8.4.4
 	20.250.58.93
+	10.0.0.2
+	192.168.3.102
 
 Blocked Outgoing IPs:
 
@@ -13,7 +14,7 @@ Blocked from Ports:
 
 	53
 	913
-
+	
 Blocked to Ports:
 
 	1003
@@ -25,4 +26,3 @@ Blocked from User Ports:
 Blocked User to Ports:
 
 	52151
-

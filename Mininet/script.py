@@ -9,21 +9,16 @@ import signal
 import subprocess
 import sys
 
-original_stdout = sys.stdout
-# print(original_stdout)
 
 def signal_handler(sig, frame):
 
-    # sys.stdout.close()
-    # print(sys.stdout)
-    sys.stdout = original_stdout
+    sys.stdout.close()
     
     print("\nTerminated eBPF program.")
     
-    os.system("sudo ip link set dev eth0 xdp off")
-    os.system("sudo ip link set dev lo xdp off")
+    # os.system("sudo ip link set dev eth0 xdp off")
+    # os.system("sudo ip link set dev lo xdp off")
     
-    sys.stdout.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -42,7 +37,7 @@ with open("Rules.txt", 'r') as Rules:
 
 
 b = BPF(src_file = "firewall.bpf.c", cflags=["-w"])
-interface = "lo"
+interface = "h1-eth0"
 
 fx = b.load_func("xdp", BPF.XDP)
 BPF.attach_xdp(interface, fx, 0)
@@ -121,4 +116,3 @@ display_blocks(blocks)
 log_file_path = "trace_log.txt"
 sys.stdout = open(log_file_path, "w")
 
-b.trace_print()
