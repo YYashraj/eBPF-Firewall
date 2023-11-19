@@ -7,10 +7,11 @@ Instructions to run main programs-
 </pre>
 The folder 'IP and Port Filter' has the final code for our filter implementation
 
+<!--
 # TC - Linux Traffic Control
 Instructions and commands to run TC programs and check the outputs. 
 
-## Traffic Shaping
+## Traffic Shaping -->
 
 # ipRules Commands Sheet
 <pre>
