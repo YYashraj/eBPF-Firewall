@@ -5,7 +5,11 @@ Instructions to run main programs-
 	Most of the C code does not need to be run separately; The related python script will compile it.
 	To replay the pcap file: sudo tcpreplay -v --mbps &lt;speed> -i &lt;interface_name> 1.pcap 
 </pre>
-The folder 'IP and Port Filter' has the final code for our filter implementation
+
+* The folder 'IP and Port Filter' has the final code for our filter implementation.
+* The 'Rate Limit' folder contains an effort to implement rate limiting.
+* The 'Basic IP filter' and 'Basic Port Filter' were just intermediate phases of development.
+
 
 <!--
 # TC - Linux Traffic Control
